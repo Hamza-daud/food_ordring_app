@@ -183,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisCount: 2,
                         mainAxisSpacing: 15,
                         crossAxisSpacing: 15,
-                        childAspectRatio: 0.9,
+                        childAspectRatio: 0.8,
                       ),
                       itemBuilder: (context, index) {
                         final dish = dishes[index];
