@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_ordering_app/All_Screens/auth_Screen/login_screen.dart';
+import 'package:food_ordering_app/All_Screens/auth_Screen/signup_Screen.dart';
 
 import 'package:food_ordering_app/All_Screens/mian_screen.dart';
 import 'package:food_ordering_app/helper/colors.dart';
@@ -63,8 +65,12 @@ class StartScreen extends StatelessWidget {
               child: Center(
                 child: InkWell(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MainScreen()));
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()),
+                      (route) => false,
+                    );
                   },
                   child: Text(
                     'Get Started',

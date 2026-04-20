@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_ordering_app/All_Screens/chat_screen.dart';
 import 'package:food_ordering_app/All_Screens/detail_screen.dart';
 import 'package:food_ordering_app/All_Screens/home_item_page.dart';
+import 'package:food_ordering_app/All_Screens/notification_screen.dart';
 import 'package:food_ordering_app/helper/app_pictures.dart';
 import 'package:food_ordering_app/helper/colors.dart';
 import 'package:food_ordering_app/models/category_model.dart';
@@ -33,273 +36,231 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontSize: 35),
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Container(
-                clipBehavior: Clip.hardEdge,
-                height: sh * 0.09,
-                width: sw * 0.2,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                child: Image.asset(
-                  'assets/pictures/profile.png',
-                  fit: BoxFit.fill,
-                ),
-              ),
-            )
+            // Chat
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChatScreen(),
+                      ));
+                },
+                icon: const Icon(CupertinoIcons.chat_bubble_text)),
+            // Notifications
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NotificationScreen(),
+                      ));
+                },
+                icon: Icon(
+                  Icons.notifications,
+                  size: 30,
+                )),
           ],
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                //..................................................................text For permotion
-                SizedBox(
-                  height: sh * 0.01,
-                ),
-                //promotion Text
+                SizedBox(height: sh * 0.01),
+
+                // ================= PROMOTION TEXT =================
                 const Text(
                   'Promotions',
-                  style: TextStyle(fontSize: 30, fontFamily: 'Poppins'),
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
+                  ),
                 ),
-                //....................................................promotion container
+
+                const SizedBox(height: 12),
+
+                // ================= PROMO CARD =================
                 Stack(
+                  clipBehavior: Clip.none,
                   children: [
                     Container(
-                      clipBehavior: Clip.none,
-                      width: sw * 0.9,
-                      margin: EdgeInsets.all(10),
-                      padding: EdgeInsets.all(10),
+                      width: sw,
+                      padding: const EdgeInsets.all(18),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          gradient: LinearGradient(colors: [
-                            const Color(0xff7E3EBEEB).withOpacity(0.92),
-                            const Color(0xff7E3EBEEB).withOpacity(0.55)
-                          ])),
-                      child: RichText(
-                          text: const TextSpan(children: [
-                        TextSpan(
-                            text: 'Todays Offers',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 16)),
-                        TextSpan(
-                            text: '\n\nFree Box Of Fries',
+                        borderRadius: BorderRadius.circular(22),
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            const Color(0xff6A5AE0),
+                            const Color(0xff8F7CFF),
+                          ],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
+                          )
+                        ],
+                      ),
+                      child: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Today's Offer",
                             style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 19,
-                                fontWeight: FontWeight.bold)),
-                        TextSpan(
-                            text: '\n\non all order above Rs.599',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 16)),
-                      ])),
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            "Free Box Of Fries 🍟",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            "On all orders above Rs. 599",
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     Positioned(
-                      right: -5,
-                      top: -8,
+                      right: -10,
+                      top: -20,
                       child: Image.asset(
                         'assets/pictures/fries.png',
-                        height: 130,
-                        width: 150,
+                        height: 120,
                       ),
-                    )
+                    ),
                   ],
                 ),
-                //................................................................................all iteam
-                SizedBox(
-                  height: sh * 0.01,
-                ),
+
+                const SizedBox(height: 20),
+
+                // ================= ALL ITEMS =================
                 const Text(
                   'All Items',
-                  style: TextStyle(fontSize: 30, fontFamily: 'Poppins'),
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
+                  ),
                 ),
-                // popular item
-                SizedBox(
-                  height: sh * 0.01,
-                ),
-                //..................................................................grid view
+
+                const SizedBox(height: 12),
+
+                // ================= GRID =================
                 StreamBuilder<QuerySnapshot>(
-                    stream: firebaseFirestore.collection("Dishes").snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      }
+                  stream: firebaseFirestore.collection("Dishes").snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
 
-                      // Error
-                      if (snapshot.hasError) {
-                        return Center(child: Text("Error loading dishes"));
-                      }
+                    final dishes = snapshot.data!.docs.map((doc) {
+                      return DishModel.fromMap(
+                          doc.data() as Map<String, dynamic>);
+                    }).toList();
 
-                      // No Data
-                      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                        return Center(child: Text("No dishes found"));
-                      }
+                    return GridView.builder(
+                      itemCount: dishes.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 15,
+                        crossAxisSpacing: 15,
+                        childAspectRatio: 0.9,
+                      ),
+                      itemBuilder: (context, index) {
+                        final dish = dishes[index];
 
-                      final dishes = snapshot.data!.docs.map((doc) {
-                        return DishModel.fromMap(
-                            doc.data() as Map<String, dynamic>);
-                      }).toList();
+                        return GestureDetector(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => DetailScreen(foodItemModel: dish),
+                            ),
+                          ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.08),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // IMAGE
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(20),
+                                  ),
+                                  child: Image.network(
+                                    dish.dishimage,
+                                    height: 110,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
 
-                      return GridView.builder(
-                        itemCount: dishes.length,
-                        shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10),
-                        itemBuilder: (context, index) {
-                          final dish = dishes[index];
-                          return GestureDetector(
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: ((context) =>
-                                        DetailScreen(foodItemModel: dish)))),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        const Color(0xff7E3EBE2D)
-                                            .withOpacity(0.17),
-                                        const Color(0xff7E3EBE2D)
-                                            .withOpacity(0.21)
-                                      ])),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: sw * 0.25,
-                                      width: sw,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(50),
-                                        child: Image.network(
-                                          dish.dishimage,
-                                          height: 55,
-                                          width: 55,
-                                          fit: BoxFit.cover,
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        dish.dishname,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ),
-                                    Text(dish.dishname,
-                                        style: TextStyle(fontSize: 20)),
-                                    Text(
-                                      dish.dishprice.toString(),
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Color(0xff626C23),
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  ],
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        "Rs: ${dish.dishprice}",
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                          );
-                        },
-                      );
-                    }),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
               ],
             ),
           ),
         ));
   }
 }
-
-//Category List
-// SizedBox(
-//   height: sh * 0.15,
-//   child: ListView.builder(
-//       scrollDirection: Axis.horizontal,
-//       shrinkWrap: true,
-//       itemCount: CategoryItem.length,
-//       itemBuilder: (context, index) {
-//         return Column(
-//           children: [
-//             Padding(
-//               padding: const EdgeInsets.all(5.0),
-//               child: Container(
-//                 clipBehavior: Clip.hardEdge,
-//                 height: sh * 0.10,
-//                 width: sw * 0.20,
-//                 decoration: BoxDecoration(
-//                     gradient: LinearGradient(
-//                         begin: Alignment.topCenter,
-//                         end: Alignment.bottomCenter,
-//                         colors: [
-//                           Color(0xffD3C7DF6E).withOpacity(0.48),
-//                           Color(0xff7E3EBE00).withOpacity(0.0)
-//                         ]),
-//                     borderRadius: BorderRadius.circular(15)),
-//                 child: InkWell(
-//                     onTap: () {
-//                       Navigator.push(
-//                           context,
-//                           MaterialPageRoute(
-//                               builder: (context) =>
-//                                   HomeItemScreen(
-//                                       categoryModel:
-//                                           CategoryItem[
-//                                               index])));
-//                     },
-//                     child: Image.asset(
-//                         CategoryItem[index].categroy_image)),
-//               ),
-//             ),
-//             Text(
-//               CategoryItem[index].category_name,
-//               style: TextStyle(
-//                   fontSize: 14,
-//                   color: AppColor.grey,
-//                   fontFamily: 'Poppins'),
-//             )
-//           ],
-//         );
-//       }),
-// ),
-
-// Container(
-//       decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(20),
-//           gradient: LinearGradient(
-//               begin: Alignment.topCenter,
-//               end: Alignment.bottomCenter,
-//               colors: [
-//                 Color(0xff7E3EBE2D).withOpacity(0.17),
-//                 Color(0xff7E3EBE2D).withOpacity(0.21)
-//               ])),
-//       child: Padding(
-//         padding: const EdgeInsets.all(8.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Center(
-//               child: Image.asset(
-//                 AppPictures.pizza2,
-//               ),
-//             ),
-//             SizedBox(
-//               height: sh * 0.04,
-//             ),
-//             Text(
-//               'Chesse Pizza',
-//               style: TextStyle(fontSize: 20),
-//             ),
-//             Text(
-//               'Rs.200',
-//               style: TextStyle(
-//                   fontSize: 20,
-//                   color: Color(0xff626C23),
-//                   fontWeight: FontWeight.bold),
-//             )
-//           ],
-//         ),
-//       ),
-//     )

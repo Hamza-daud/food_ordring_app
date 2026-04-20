@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_ordering_app/All_Screens/detail_screen.dart';
 import 'package:food_ordering_app/helper/colors.dart';
 import 'package:food_ordering_app/models/category_model.dart';
-import 'package:food_ordering_app/models/food_item_model.dart';
 
 class HomeItemScreen extends StatelessWidget {
   CategoryModel categoryModel;

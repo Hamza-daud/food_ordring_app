@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:food_ordering_app/All_Screens/auth_Screen/user_check.dart';
 import 'package:food_ordering_app/All_Screens/cart_screen.dart';
 import 'package:food_ordering_app/All_Screens/detail_screen.dart';
 import 'package:food_ordering_app/All_Screens/home_item_page.dart';
+import 'package:food_ordering_app/All_Screens/splash.dart';
 import 'package:food_ordering_app/All_Screens/start_screen.dart';
 import 'package:food_ordering_app/firebase_options.dart';
 
@@ -27,6 +29,6 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: StartScreen());
+        home: const SplashScreen());
   }
 }
