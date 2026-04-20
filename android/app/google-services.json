@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "701640467396",
+    "project_id": "crave-mate-admin",
+    "storage_bucket": "crave-mate-admin.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701640467396:android:1c729253a603a1af7d3a91",
+        "android_client_info": {
+          "package_name": "com.example.carvemate_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAopuESuIaax0KTUrrh3J_CTVEcwoRvblE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701640467396:android:0e70f9a7870c3f7b7d3a91",
+        "android_client_info": {
+          "package_name": "com.example.food_ordering_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAopuESuIaax0KTUrrh3J_CTVEcwoRvblE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
